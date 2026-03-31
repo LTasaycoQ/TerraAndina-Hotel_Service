@@ -71,6 +71,7 @@ function crearMailer() {
     return $mail;
 }
 
+
 try {
     $mail1 = crearMailer();
     $mail1->setFrom("noreply.terraandina@gmail.com", "Web Terra Andina");
