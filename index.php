@@ -6,21 +6,15 @@ header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Allow-Headers: Content-Type");
 
-
-
-
-
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 require __DIR__ . "/vendor/autoload.php";
 
-
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
+$dotenv->safeLoad();
 
-$secretKey_cloudfare = $_ENV['SECRET_KEY_CLOUDFARE'];
-
+$secretKey_cloudfare = $_ENV['SECRET_KEY_CLOUDFARE'] ?? null;
 
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     echo json_encode(["ok" => false, "error" => "Método no permitido"]);
@@ -40,8 +34,6 @@ if (!$nombre || !$apellido || !$email || !$telefono || !$mensaje || !$captcha) {
     echo json_encode(["ok" => false, "error" => "Faltan campos o verificación de seguridad"]);
     exit;
 }
-
-
 
 $url = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 
@@ -75,14 +67,13 @@ function crearMailer() {
     $mail->Host       = "smtp.gmail.com";
     $mail->SMTPAuth   = true;
     $mail->Username   = "noreply.terraandina@gmail.com";
-    $mail->Password   = $code_aplication = $_ENV['SECRET_EMAIL'];;   
+    $mail->Password   = $_ENV['SECRET_EMAIL'] ?? ''; 
     $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
     $mail->Port       = 587;
     $mail->CharSet    = 'UTF-8';
     $mail->isHTML(false);
     return $mail;
 }
-
 
 try {
     $mail1 = crearMailer();
