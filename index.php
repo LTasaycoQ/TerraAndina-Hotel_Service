@@ -79,7 +79,7 @@ try {
     $mail1 = crearMailer();
     $mail1->setFrom("noreply.terraandina@gmail.com", "Web Terra Andina");
     $mail1->addReplyTo($email, "$nombre $apellido");
-    $mail1->addAddress("luistasayco3030@gmail.com");
+    $mail1->addAddress("ventas@terraandinahotel.com");
 
     $mail1->Subject = "Consulta WEB - Terra Andina Mansion Colonial (" . date("H:i:s") . ")";
     $mail1->Body =
